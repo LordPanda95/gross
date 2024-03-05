@@ -1,0 +1,14 @@
+logger:
+    level: "info"
+    service: "gross_bot"
+gross:
+    gross_usd: "100" #Your gross in USD
+    tax_rate: "6"
+    plan_usd_rate: "85" #Your USD rate plan
+nbrb:
+    api_url: "https://api.nbrb.by/exrates/rates/"
+    rub_id: "456"
+    usd_id: "431"
+telegram:
+    api_key: "1234" #Your telegram bot token
+    chat_id: "1234" #Your telegram chat id
