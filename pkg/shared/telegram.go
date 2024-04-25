@@ -19,13 +19,34 @@ type TelegramConfig struct {
 	ChatId int64  `mapstructure:"chat_id"`
 }
 
-func (telegram *Telegram) NewBot(config *TelegramConfig, logger *zerolog.Logger) error {
+func (telegram *Telegram) NewBot(config *TelegramConfig, loggerConfig *LoggerConfig, logger *zerolog.Logger) error {
 	// Note: Please keep in mind that default logger may expose sensitive information,
 
 	err := errors.New("")
 
 	// use in development only
-	telegram.Bot, err = telego.NewBot(config.ApiKey, telego.WithDefaultDebugLogger())
+	if loggerConfig.Level == "debug" {
+		telegram.Bot, err = telego.NewBot(config.ApiKey, telego.WithDefaultDebugLogger())
+		logger.Info().
+			Msg("telegram bot created in debug mode")
+		if err != nil {
+			logger.Fatal().
+				Err(err).
+				Msg("cannot create bot")
+		}
+
+	} else {
+		telegram.Bot, err = telego.NewBot(config.ApiKey)
+		logger.Info().
+			Msg("telegram bot created")
+		if err != nil {
+			logger.Fatal().
+				Err(err).
+				Msg("cannot create bot")
+		}
+	}
+
+	telegram.Bot, err = telego.NewBot(config.ApiKey)
 	if err != nil {
 		logger.Fatal().
 			Err(err).

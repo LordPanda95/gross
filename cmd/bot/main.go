@@ -62,7 +62,7 @@ func main() {
 
 	go func() {
 		telegram := shared.Telegram{}
-		err = telegram.NewBot(config.Telegram, logger)
+		err = telegram.NewBot(config.Telegram, config.Logger, logger)
 		if err != nil {
 			mainLogger.Error().
 				Err(err).
